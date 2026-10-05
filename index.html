@@ -28,17 +28,15 @@
     object-fit: cover;
     display: block;
   }
-  #tombolFullscreen {
+  .tombolKontrol {
     position: absolute;
     top: 12px;
-    right: 12px;
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     background: rgba(0, 0, 0, 0.55);
     color: #fff;
-    font-size: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -47,24 +45,35 @@
     backdrop-filter: blur(4px);
     z-index: 10;
   }
-  #tombolFullscreen:hover {
+  .tombolKontrol:hover {
     background: rgba(0, 0, 0, 0.8);
     transform: scale(1.05);
   }
-  #tombolFullscreen:active {
+  .tombolKontrol:active {
     transform: scale(0.95);
   }
-  #tombolFullscreen svg {
-    width: 22px;
-    height: 22px;
+  .tombolKontrol svg {
+    width: 18px;
+    height: 18px;
     fill: #fff;
+  }
+  #tombolDownload {
+    right: 56px;
+  }
+  #tombolFullscreen {
+    right: 12px;
   }
 </style>
 </head>
 <body>
   <div id="wrapper">
     <img id="gambar" src="bg.png" alt="bg">
-    <button id="tombolFullscreen" aria-label="Fullscreen">
+    <button id="tombolDownload" class="tombolKontrol" aria-label="Download">
+      <svg viewBox="0 0 24 24">
+        <path d="M5 20h14v-2H5v2zM12 18l5-5h-3V4h-4v9H7l5 5z"/>
+      </svg>
+    </button>
+    <button id="tombolFullscreen" class="tombolKontrol" aria-label="Fullscreen">
       <svg id="ikonMasuk" viewBox="0 0 24 24">
         <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
       </svg>
@@ -76,11 +85,13 @@
 
   <script>
     const wrapper = document.getElementById('wrapper');
-    const tombol = document.getElementById('tombolFullscreen');
+    const tombolFullscreen = document.getElementById('tombolFullscreen');
+    const tombolDownload = document.getElementById('tombolDownload');
+    const gambar = document.getElementById('gambar');
     const ikonMasuk = document.getElementById('ikonMasuk');
     const ikonKeluar = document.getElementById('ikonKeluar');
 
-    tombol.addEventListener('click', () => {
+    tombolFullscreen.addEventListener('click', () => {
       if (!document.fullscreenElement) {
         if (wrapper.requestFullscreen) {
           wrapper.requestFullscreen();
@@ -108,6 +119,15 @@
         ikonMasuk.style.display = 'block';
         ikonKeluar.style.display = 'none';
       }
+    });
+
+    tombolDownload.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = gambar.src;
+      link.download = 'bg.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
   </script>
 </body>
